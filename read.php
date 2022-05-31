@@ -4,6 +4,7 @@ require("connect_db.php");
 
 // READ USER
 if($_GET["show"] == "all"){
+
     try {
         $sql ="SELECT * FROM myguests;";
         $statement = $pdo->prepare($sql);
@@ -12,11 +13,29 @@ if($_GET["show"] == "all"){
         // grab results 
         $results = $statement->fetchAll(PDO::FETCH_OBJ);    
         echo var_dump($results);
-        
-
     } catch(PDOException $e) {
         echo "Error: " . $e->getMessage();
       }
+
+} elseif($_GET["show"] == "one" && isset($_GET["id"])){
+
+    $id = $_GET["id"];
+
+    try {
+        $sql ="SELECT * FROM myguests where id=:id;";
+        
+        $statement = $pdo->prepare($sql);
+
+        $statement->execute(["id"=>$id]);
+
+        echo "good so far";
+        // grab results 
+        $results = $statement->fetchAll(PDO::FETCH_OBJ);    
+        echo var_dump($results);
+    } catch(PDOException $e) {
+        echo "Error: " . $e->getMessage();
+      }
+
 }
 ?>
 
@@ -45,13 +64,17 @@ if($_GET["show"] == "all"){
     <th>First Name</th>
     <th>Last Name</th>
     <th>Age</th>
+    <th>Edit</th>
+    <th>Delete</th>
   </tr>
 <?php foreach($results as $user) { ?>
   <tr>
     <td><?php echo $user->id; ?></td>
     <td><?php echo $user->firstname; ?></td>
     <td><?php echo $user->lastname; ?></td>
-    <td><?php echo $user->id; ?></td>
+    <td><?php echo $user->age; ?></td>
+    <td><?php echo "Edit"; ?></td>
+    <td><?php echo "Delete"; ?></td>
   </tr>
   <?php } ?>
 </table>

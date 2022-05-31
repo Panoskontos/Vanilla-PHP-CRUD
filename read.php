@@ -23,7 +23,7 @@ if($_GET["show"] == "all"){
 
     try {
         $sql ="SELECT * FROM myguests where id=:id;";
-        
+
         $statement = $pdo->prepare($sql);
 
         $statement->execute(["id"=>$id]);
@@ -47,8 +47,19 @@ if($_GET["show"] == "all"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
+
 <body>
-    <h3>This is read php</h3>
+    <br>
+    <br>
+<head>
+<a href="create.php">Create User</a>
+        <a href="read.php?show=all">Show All Users</a>
+    
+</head>
+<br>
+<br>
+<h3>This is read php</h3>
 
     <!-- GOD DAMN -->
     <?php foreach($results as $user) { ?>
@@ -73,8 +84,19 @@ if($_GET["show"] == "all"){
     <td><?php echo $user->firstname; ?></td>
     <td><?php echo $user->lastname; ?></td>
     <td><?php echo $user->age; ?></td>
-    <td><?php echo "Edit"; ?></td>
-    <td><?php echo "Delete"; ?></td>
+    
+        <td>
+        <a href="http://localhost/panos/update.php?id=<?php echo $user->id; ?>">    
+        <?php echo "Edit"; ?>
+    </a>
+    </td>
+    <td>
+            <a href="http://localhost/panos/delete.php?id=<?php echo $user->id; ?>"
+            onclick="confirm()"
+            >
+            <?php echo "Delete"; ?>
+        </a>
+        </td>
   </tr>
   <?php } ?>
 </table>
